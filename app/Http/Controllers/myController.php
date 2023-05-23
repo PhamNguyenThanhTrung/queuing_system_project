@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\Mail;
 
 class MyController extends Controller
 {
+    //biểu đồ
     public function showDashboard(Request $r)
     {
 
@@ -380,38 +381,7 @@ class MyController extends Controller
 
 
 
-
-
-
-    //cấp số
-    public function showGrantData(Request $request)
-    {
-        $grants = Capso::select('STT', 'MemberName', 'Name_Dv', 'source', 'member_id', 'ID_Tb', 'created_at', 'updated_at', 'expired_at')->get();
-
-        $avatar = Avatar::where('member_id', Auth::user()->MemberID)->first();
-
-        $data = [
-            'grants' => $grants,
-            'avatar' => $avatar,
-        ];
-        return view('includes.header', $data);
-    }
-
-    public function showTBCS(Request $request)
-    {
-        $capsos = Capso::query();
-
-        view()->composer(['thietbi.showthietbi', 'thietbi', 'personalaccount'], function ($view) use ($capsos) {
-            $view->with('capsos', $capsos);
-        });
-
-        return view('includes.header');
-    }
-
-
-
-
-
+//show vai trò
     public function showvaitro(Request $request)
     {
         $members = Member::all();
@@ -449,6 +419,7 @@ class MyController extends Controller
         return redirect('/Vaitro')->with('success', 'Cập nhật vai trò thành công');
     }
 
+    //thêm vai trò
     public function ThemVT(Request $request)
     {
         // Validate input data
@@ -496,7 +467,7 @@ class MyController extends Controller
     }
 
 
-
+//update vai trò
     public function updateVT(Request $request, $ID_VT)
     {
         $data = $request->validate([
@@ -671,7 +642,7 @@ $dichvus=Dichvu::all();
 
     }
 
-
+// thêm số mới
     public function Capsomoi(Request $request)
     {
         // Validate input data
@@ -764,6 +735,8 @@ $Vaitro=Vaitro::all();
 
         return view('Menu.Quanlytaikhoan.quanlytaikhoan', $data);
     }
+    
+    //edit thêm tài khoản
     public function ThemTk1(Request $request)
     {
         // Các xử lý thêm tài khoản
@@ -877,7 +850,7 @@ $Vaitro=Vaitro::all();
     }
 
     //dichvu
-
+// update dịch vụ
     public function updateDV(Request $request, $ID_Dv)
     {
         $data = $request->validate([
@@ -911,7 +884,7 @@ $Vaitro=Vaitro::all();
         return redirect('/Dichvu')->with('success', 'Cập nhật dịch vụ thành công');
     }
 
-
+//show chi tiết dịch vụ
     public function showchitietDV(Request $request, $ID_Dv)
     {
         $query = Capso::query();
