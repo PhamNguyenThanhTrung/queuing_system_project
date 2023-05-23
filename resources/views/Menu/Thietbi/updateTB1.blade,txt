@@ -1,0 +1,460 @@
+
+
+@extends("Template.templates")
+
+
+
+
+@section('Themthietbi')
+
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$user = session('user');
+$user = Auth::user();
+
+?>
+        <!-- Hiện thông tin user -->
+        
+        <div  method="post" style="width: 1220px; background-color: #f7f7f7; border: 1px solid #f7f7f7;">
+        @csrf
+            @if($user = session('user'))
+            <div class="container mt-4" >
+
+                <div class="row">
+                    <!-- Chia khung bên trái -->
+                    <div class="col-lg-4">
+                        <p style="width: 1200px; font-weight: 600; font-size: larger; margin-top: 5px; color: #848387;">Thiết bị
+                        <span style="font-size: 10px; position: absolute; top: 38px;"><i class="fa-solid fa-chevron-right"></i></span>
+                        <span style="padding-left: 10px;"><a href="{{url('/')}}/thietbi" style="color: #848387; text-decoration: none;">Danh sách thiết bị</a></span>
+                        <span style="font-size: 10px; position: absolute; top: 38px;"><i class="fa-solid fa-chevron-right"></i></span>
+                        <span style="color: orangered; padding-left: 10px;">Thêm thiết bị</span></p>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <h5 style="color: orangered; font-size: 28px;">Quản lý thiết bị</h5>
+                    <div class="khung_themthietbi">
+                        <div class="container">
+                            <p style="padding-top: 20px; font-size: 25px; font-weight: 500; color: orangered;">Thông tin thiết bị</p>
+                            <div class="row">
+                               
+                                <!-- Input mã thiết bị -->
+                                <form method="post" action="{{ route('thietbi.updateTB', $thietbi->ID_Tb) }}">
+
+    @csrf
+    @method('PUT')
+    <input type="hidden" name="id" value="PUT">
+    <div class="form-group">
+        <label for="ID_Tb">ID Thiết bị</label>
+        <input type="text" class="form-control" value="{{ $thietbi->ID_Tb }}" name="ID_Tb" required>
+        @if($errors->has('ID_Tb'))
+        <p class="text-danger">{{ $errors->first('ID_Tb') }}</p>
+    @endif
+    </div>
+    <div class="form-group">
+        <label for="Name_Tb">Tên Thiết bị</label>
+        <input type="text" value="{{ $thietbi->Name_Tb }}" class="form-control" name="Name_Tb" required>
+        @if($errors->has('Name_Tb'))
+        <p class="text-danger">{{ $errors->first('Name_Tb') }}</p>
+    @endif
+    </div>
+    <div class="form-group">
+    <span class="dropdown-loai">
+        <label for="Diachi">Địa chỉ</label>
+        <input type="text" value="{{ $thietbi->Diachi }}" class="form-control" name="Diachi" required>
+        @if($errors->has('Diachi'))
+        <p class="text-danger">{{ $errors->first('Diachi') }}</p>
+    @endif
+    </div>
+   
+    <div>
+   
+    <label for="Loai_Tb">Loại Thiết bị :</label><br>
+   
+                                        <span class="dropdown-loai">
+                                            <select value="" name="Loai_Tb" class="select_loai">
+                                                <option value="{{ $thietbi->Loai_Tb }}" disabled hidden selected>{{ $thietbi->Loai_Tb }}</option>
+                                                <option value="Kiosk">Kiosk</option>
+                                                <option value="Display counter">Display counter</option>
+                                            </select>
+                                            <span class="icon_dropd"><i class="fa-solid fa-caret-down"></i></span>
+                                            </span>
+                                            @if($errors->has('Loai_Tb'))
+        <p class="text-danger">{{ $errors->first('Loai_Tb') }}</p>
+    @endif
+</div>
+                                <!-- Input dịch vụ sử dụng -->
+                                <div class="col-lg-12">
+                                <label for="dichvu_Sd">Dịch vụ sử dụng</label>
+        <input type="text" value="{{$thietbi->dichvu_Sd}}" class="form-control" name="dichvu_Sd" required>
+                                    @if($errors->has('dichvusd')) 
+                                        <span class="text-danger">{{$errors->first('dichvusd')}}</span>
+                                    @endif</p>
+                                </div>
+                                <p style="font-size: 16px; font-weight: 500; color: #848387;"><span class="text-danger">*</span> Là trường thông tin bắt buộc</p>
+
+                            </div>
+                            <div class="form-group">
+    <label for="UserDN">Tên đăng nhập</label>
+    <input  value="{{$thietbi->dichvu_Sd}}" type="text" class="form-control" name="UserDN" required>
+    @if($errors->has('UserDN'))
+        <p class="text-danger">{{ $errors->first('UserDN') }}</p>
+    @endif
+</div>
+<div class="form-group">
+    <label for="password">Mật khẩu</label>
+    <input type="password" class="form-control" name="password" required>
+    @if($errors->has('error'))
+        <p class="text-danger">{{ $errors->first('password') }}</p>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+</div>
+
+                            <!-- Button thêm thiết bị -->
+                            <p style="margin-top: 140px; margin-left: 357px;">
+                                <a href="{{url('/')}}/Thietbi">
+                                    <button type="button" class="button_huy">Hủy bỏ</button>
+                                </a>
+                                <a href="#">
+                                    <button type="submit" class="button_xn">Cập nhật</button>
+                                </a>
+                            </p>
+                                @if(isset($success))
+                                    <script>
+                                        alert('{{$success}}');
+                                        window.location.href = "/Queuing_system/thietbi";
+                                    </script>
+                                @endif
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            @endif
+</div>
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@extends("Template.templates")
+
+@section('header')
+<!-- Các mã HTML khác ở phần header -->
+
+<form action="" style="width: 1220px; background-color: #f7f7f7; border: 1px solid #f7f7f7;">
+    <!-- Mã HTML khác ở phần form -->
+
+    <div class="row">
+        <div class="col-lg-4">
+            <p style="font-weight: 600; line-height: 40px;">Trạng thái hoạt động
+                <span class="dropdown-icon">
+                    <select name="hoatdong" class="dropd" id="hoatdong-filter">
+                        <option value="" disabled selected>Tất cả</option>
+                        <option value="Hoạt động">Hoạt động</option>
+                        <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                    </select>
+                    <span class="icon_dropd"><i class="fa-solid fa-caret-down"></i></span>
+                </span>
+            </p>
+        </div>
+        <div class="col-lg-4">
+            <p style="font-weight: 600; line-height: 40px;">Trạng thái kết nối
+                <span class="dropdown-icon">
+                    <select name="ketnoi" class="dropd">
+                        <option value="Tất cả">Tất cả</option>
+                        <option value="Kết nối">Kết nối</option>
+                        <option value="Mất kết nối">Mất kết nối</option>
+                    </select>
+                    <span class="icon_dropd"><i class="fa-solid fa-caret-down"></i></span>
+                </span>
+            </p>
+        </div>
+        <div class="col-lg-4">
+            <p style="font-weight: 600; line-height: 40px; margin-left: 150px;">Từ khóa
+                <span class="dropdown-icon">
+                    <input type="search" class="dropd" name="timkiem" placeholder="Nhập từ khóa">
+                    <span class="icon_search"><i class="fa-solid fa-magnifying-glass"></i></span>
+                </span>
+            </p>
+        </div>
+    </div>
+    <!-- Các mã HTML khác trong phần form -->
+</form>
+
+<!-- Script thực hiện bộ lọc -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#hoatdong-filter').change(function() {
+            var selectedValue = $(this).val(); // Lấy giá trị đã chọn trong select
+
+            // Thực hiện bộ lọc hoạt động
+            if (selectedValue === '') {
+                // Hiển thị tất cả các thiết bị
+                $('.color-tr-white').show();
+            } else {
+                // Ẩn các thiết bị không phù hợp với hoạt động đã chọn
+                $('.color-tr-white').each(function() {
+                    var
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@extends("Template.templates")
+
+
+
+
+@section('header')
+
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$user = session('user');
+$user = Auth::user();
+
+?>
+<!-- Hiện thông tin user -->
+
+<form action="" style="width: 1220px; background-color: #f7f7f7; border: 1px solid #f7f7f7;">
+    @csrf
+    <div class="container mt-4">
+
+        <div class="row">
+            <!-- Chia khung bên trái -->
+            <div class="col-lg-4">
+                <p style="width: 1200px; font-weight: 600; font-size: larger; margin-top: 5px; color: #848387;">Thiết bị
+                    <span style="font-size: 10px; position: absolute; top: 38px;"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span style="color: orangered; padding-left: 10px;">Danh sách thiết bị</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <h5 style="color: orangered; font-size: 28px;">Danh sách thiết bị</h5>
+            <div class="row" style="width: 1200px;">
+                <!-- Danh sách thiết bị -->
+                <div class="col-lg-10">
+                    <div class="row">
+                    <div class="col-lg-4">
+    <p style="font-weight: 600; line-height: 40px;">Trạng thái hoạt động
+        <span class="dropdown-icon">
+        <select name="hoatdong" class="dropd" id="hoatdong-filter">
+    <option value="" disabled selected>Tất cả</option>
+    <option value="Hoạt động">Hoạt động</option>
+    <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+</select>
+
+            <span class="icon_dropd"><i class="fa-solid fa-caret-down"></i></span>
+        </span>
+    </p>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#hoatdong-filter').change(function() {
+            var selectedValue = $(this).val(''); // Lấy giá trị đã chọn trong select
+
+            // Thực hiện bộ lọc hoạt động
+            if (selectedValue === '') {
+                // Hiển thị tất cả các thiết bị
+                $('.color-tr-white').show();
+            } else {
+                // Ẩn các thiết bị không phù hợp với hoạt động đã chọn
+                $('.color-tr-white').each(function() {
+                    var hoatdong = $(this).data('hoatdong'); // Lấy giá trị hoạt động từ thuộc tính data
+
+                    console.log(hoatdong); // Kiểm tra giá trị hoạt động trong console
+
+                    if (hoatdong === selectedValue) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+                        <div class="col-lg-4">
+                            <p style="font-weight: 600; line-height: 40px;">Trạng thái kết nối
+                                <span class="dropdown-icon">
+                                    <select name="ketnoi" class="dropd">
+                                        <option value="Tất cả">Tất cả</option>
+                                        <option value="Kết nối">Kết nối</option>
+                                        <option value="Mất kết nối">Mất kết nối</option>
+                                    </select>
+                                    <span class="icon_dropd"><i class="fa-solid fa-caret-down"></i></span>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p style="font-weight: 600; line-height: 40px; margin-left: 150px;">Từ khóa
+                                <span class="dropdown-icon">
+                                    <input type="search" class="dropd" name="timkiem" placeholder="Nhập từ khóa">
+                                    <span class="icon_search"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+            <!--  -->
+            <div class="content-device" style="display: flex;">
+                <div class="table-list-device">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td class="th-border-left" style="color: #ffffff; font-size: 16px;">Mã thiết bị</td>
+                                <td class="border-table" style="color: #ffffff; font-size: 16px;">Tên thiết bị</td>
+                                <td class="text-light" style="color: #ffffff; font-size: 16px;">Địa chỉ IP</td>
+                                <td class="border-table" style="color: #ffffff; font-size: 16px;">Trạng thái hoạt động</td>
+                                <td class="border-table" style="color: #ffffff; font-size: 16px;">Trạng thái kết nối</td>
+                                <td class="border-table" style="color: #ffffff; font-size: 16px;">Dịch vụ sử dụng</td>
+                                <td class="text-light" style="color: #ffffff; font-size: 16px;"></td>
+                                <td class="th-border-right" style="color: #ffffff; font-size: 16px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- Dòng thứ nhất -->
+                            <tr class="color-tr-white">
+                                @foreach($thietbis as $thietbi)
+
+                                <td>{{ $thietbi->ID_Tb }}</td>
+
+
+
+                                <td class="border-table">{{ $thietbi->Name_Tb }}</td>
+                                <td class="border-table">{{ $thietbi->Diachi }}</td>
+
+                              
+                                <td class="border-table color-tr-white" data-hoatdong="{{ $thietbi->Tinhtrang }}">
+    @if($thietbi->Tinhtrang == 'Hoạt động')
+        <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="4" cy="4.5" r="4" fill="#34C759" />
+        </svg>
+    @else
+        <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="4" cy="4.5" r="4" fill="red" />
+        </svg>
+    @endif
+    {{ $thietbi->Tinhtrang }}
+</td>
+
+                                    
+                                    
+
+
+                                    @if($thietbi->member_id == $user->MemberID)
+                                    <td class="border-table">
+                                        <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="4" cy="4.5" r="4" fill="#34C759" />
+                                        </svg> Kết nối
+                                    </td>
+                                    @else
+                                    <td class="border-table">
+                                        <svg width="8" height="9" viewBox="0 0 8 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="4" cy="4.5" r="4" fill="#E73F3F" />
+                                        </svg> Mất kết nối
+                                    </td>
+                                    @endif
+                                    <td class="border-table pt-3">
+                                        <p style="white-space: pre-wrap;">{{ (strlen($thietbi->dichvu_Sd) > 30) ? nl2br(substr($thietbi->dichvu_Sd, 0, 30)) : $thietbi->dichvu_Sd }}{{ (strlen($thietbi->dichvu_Sd) > 8) ? '...' : '' }}<br><br><a href="{{ route('thietbi.showchitietTB',['ID_Tb' => $thietbi->ID_Tb]) }}">Xem thêm </a></p>
+                                    </td>
+
+
+
+
+                                    <td><a href="{{ route('thietbi.editTB',['ID_Tb' => $thietbi->ID_Tb]) }}">Cập nhật</a></td>
+                            </tr>
+
+
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- Button thêm thiết bị -->
+                @if($user = session('user'))
+                <div class="themthietbi">
+                    <a href="{{url('/')}}/Themthietbi" style="text-decoration: none; color: orangered;">
+                        <div>
+                            <p><i class="fa-solid fa-square-plus"></i><br>
+                                Thêm thiết bị</p>
+                        </div>
+                    </a>
+                </div>
+                @endif
+            </div>
+            <!--  -->
+        </div>
+
+        <!-- Phân trang -->
+        <div class="phantrang">
+            <ul class="trang">
+                <li>
+                    <a href="#" style="font-size: 29px;"><i class="fa-solid fa-caret-left"></i></a>
+                </li>
+                <li class="modautrang"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">...</a></li>
+                <li><a href="#">10</a></li>
+                <li>
+                    <a href="#" style="font-size: 29px;"><i class="fa-solid fa-caret-right"></i></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</form>
+
+@endsection
