@@ -1311,92 +1311,6 @@ $Vaitro=Vaitro::all();
 
 
 
-    // public function getPass(Request $request) {
-    //     $data = $request->validate([
-    //         'token' => 'required',
-    //     ]);
-
-    //     // Retrieve the member with the specified token
-    //     $members = Member::where('token', $data['token'])->first();
-
-    //     if (!$members) {
-    //         return redirect('/quenmatkhau')->with('error', 'Link đổi mật khẩu không hợp lệ.');
-    //     }
-    // dd($members);
-    //     // Render the password reset form with the member and token
-    //     return view('getPass', ['members' => $members, 'token' => $data['token']]);
-
-    // }
-
-    // public function postGetPass(Request $request, $token) {
-    //     // Validate input data
-    //     $request->validate([
-    //         'password' => 'required|min:6',
-    //         'confirm_password' => 'required|same:password',
-    //     ]);
-
-    //     // Retrieve the member with the specified token
-    //     $member = Member::where('token', $token)->first();
-
-    //     if (!$member) {
-    //         return redirect('/quenmatkhau')->with('error', 'Link đổi mật khẩu không hợp lệ.');
-    //     }
-
-    //     // Update member's password and set token to null
-    //     $member->password = bcrypt($request->password);
-    //     $member->token = null;
-    //     $member->save();
-
-    //     // Delete password reset token from password_reset_tokens table
-    //     DB::table('password_reset_tokens')->where('token', $token)->delete();
-
-    //     // Redirect to login page with success message
-    //     return redirect()->route('login')->with('success', 'Mật khẩu đã được thay đổi thành công!');
-    // }
-
-
-
-
-    //     $member = Member::where('email', $data['email'])
-    //                     ->where('membertoken', $data['token'])
-    //                     ->first();
-
-    //     if (!$member) {
-    //         return redirect('/quenmatkhau')->with('error', 'Vui lòng nhập lại email vì link đã quá hạn.');
-    //     } else {
-    //         $member->password = Hash::make($data['password']);
-    //         $member->membertoken = null;
-    //         $member->save();
-
-    //         return view('datlaimatkhau', ['message' => 'Mật khẩu đã được cập nhật, mời bạn đăng nhập.']);
-    //     }
-    // }
-
-    //     public function getPass(Member $customer, $token)
-    // {
-    //     if ($customer->token === $token) {
-    //         if (request()->isMethod('post')) {
-    //             $validator = Validator::make(request()->all(), [
-    //                 'password' => 'required',
-    //                 'confirm_password' => 'required|same:password',
-    //             ]);
-
-    //             if ($validator->fails()) {
-    //                 return redirect()->back()->withErrors($validator->errors());
-    //             }
-
-    //             $password_h = bcrypt(request()->password);
-    //             $customer->update(['password' => $password_h, 'token' => null]);
-
-    //             return redirect()->route('login')->with('yes', 'Vui lòng check email để thực hiện thay đổi mật khẩu');
-    //         } else {
-    //             return view('getPass');
-    //         }
-    //     } else {
-    //         return abort(404);
-    //     }
-    // }
-
     public function editgetPass(Request $request, Member $members, $email, $token)
     {
         $rspass = PassWordRS::where('token', $token)->where('email', $email)->first();
@@ -1466,7 +1380,7 @@ $Vaitro=Vaitro::all();
         $this->session->forget('password');
     }
 
-    // Thử in ra giá trị của session để kiểm tra
+    
     public function dangnhap(Request $r)
     {
         $validator = Validator::make($r->all(), [
@@ -1496,40 +1410,7 @@ $Vaitro=Vaitro::all();
     }
 
 
-    //hàm của trang
-    /////////////////////////////////////////////////////
-    public function image(Request $r)
-    {
-        //dd($r->all());
-        $messages = [];
-        $validator = validator::make($r->all(), [
-            'hinhsp' => 'required',
-
-        ], $messages);
-        if ($validator->fails()) {
-            return redirect('/taikhoancanhan')->withErrors($validator)->withInput();
-        }
-
-        $hinh    = $r->file('hinhsp');
-        $StorePath = $hinh->move('Public/ProductImages/', $hinh->getClientOriginalName());
-
-
-        DB::insert('insert into avatars ( Image) values (?)', [$StorePath]);
-
-        return view('personalaccount', ['success' => 'Nhập thành công']);
-    }
-
-    //hàm của trang
-    public function laysanpham()
-    {
-        $sp = DB::table('avatars')
-            ->select('Image')
-            ->groupBy('Image')
-            ->get();
-
-        return view('personalaccount', ['sp' => $sp]);
-    }
-
+   
 
 
 
@@ -1589,23 +1470,7 @@ $Vaitro=Vaitro::all();
 
 
 
-    //Hiển thị trang thiết bị
-
-
-
-
-    //Chức năng thêm thiết bị
-
-    //Hiển thị trang dịch vụ
-
-
-    //Hiển thị trang quản lý tài khoản
-
-    //Hiển thị trang thêm tài khoản
-
-    //Chức năng thêm tài khoản
-
-    //Hiển thị trang cập nhật tài khoản
+ 
 
     //Chức năng cập nhật tài khoản
 
