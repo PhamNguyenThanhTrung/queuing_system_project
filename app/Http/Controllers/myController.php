@@ -288,7 +288,7 @@ class MyController extends Controller
         $log->save();
     }
  
-    upload ảnh
+    //upload ảnh
     public function uploadAvatar(Request $request)
     {
         // Validate input data
