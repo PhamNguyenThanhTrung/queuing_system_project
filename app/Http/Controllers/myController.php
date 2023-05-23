@@ -272,7 +272,7 @@ class MyController extends Controller
         return view('Menu.nhatky', $data);
     }
 
-
+// nhật ký thao tác
     public function createLog($action)
     {
         $log = new nhatky();
@@ -287,7 +287,8 @@ class MyController extends Controller
 
         $log->save();
     }
-
+ 
+    upload ảnh
     public function uploadAvatar(Request $request)
     {
         // Validate input data
